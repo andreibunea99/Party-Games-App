@@ -2,15 +2,15 @@
 
 <div class="container-fluid center-card">
     <h1 style="font-size: 420%; color: gold; text-align: center;">Login</h1>
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">User ID</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="text" class="form-control" formControlName="inputUsername">
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <input type="password" class="form-control" formControlName="inputPassword">
         </div>
-        <button type="submit" class="btn btn-warning" style="color: white;">Submit</button>
+        <button type="submit" class="btn btn-warning" style="color: white;">Continue</button>
       </form>
 </div>

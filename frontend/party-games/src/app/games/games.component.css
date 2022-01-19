@@ -1,0 +1,30 @@
+.image-full {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: absolute;
+}
+
+.games-list {
+    align-items: center;
+    margin-left: 15%;
+    width: 60%;
+    margin-top: 10%;
+    color: white;
+    display: block;
+    position: absolute;
+}
+
+.game-row {
+    background-color: gold;
+    color: black;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-size: 150%;
+}
+
+.header {
+    color: white;
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 15%;
+}
