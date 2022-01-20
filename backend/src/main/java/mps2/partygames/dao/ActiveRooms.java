@@ -19,7 +19,7 @@ public class ActiveRooms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
     @Column(name = "admin_id")
-    private Integer adminId;
+    private String adminId;
     @Column(name = "number_of_players")
     private Integer numberOfPlayers;
     @Column(name = "room_name")
@@ -33,6 +33,22 @@ public class ActiveRooms {
     private String game;
     @Column(name = "status")
     private String status;
+    @Column(name= "guests_score")
+    private Integer guestsScore;
+    @Column(name = "guests_number")
+    private Integer guestsNumber;
 
+    public ActiveRooms(String adminId, String roomName, String roomType, Integer maximumNumberOfPlayers) {
+        this.adminId = adminId;
+        this.roomName = roomName;
+        this.roomType = roomType;
+        this.maximumNumberOfPlayers = maximumNumberOfPlayers;
+        this.setNumberOfPlayers(0);
+        this.setGuestsScore(0);
+        this.setGuestsNumber(0);
+    }
 
+    public ActiveRooms(Integer guestsNumber) {
+        this.guestsNumber = guestsNumber;
+    }
 }

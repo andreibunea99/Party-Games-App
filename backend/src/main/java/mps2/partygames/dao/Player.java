@@ -21,10 +21,19 @@ public class Player {
     private Integer ID;
     @Column(name = "id_player")
     private String playerId;
+    @Column(name = "password")
+    private String password;
     @Column(name = "score")
     private Integer score;
     @Column(name = "is_admin")
     private Boolean isAdmin;
     @Column(name = "is_guest")
     private Boolean isGuest;
+    @Column(name = "roomId")
+    private Integer roomId;
+
+    public Player(String playerId, String password) {
+        this.playerId = playerId;
+        this.password = password;
+    }
 }
