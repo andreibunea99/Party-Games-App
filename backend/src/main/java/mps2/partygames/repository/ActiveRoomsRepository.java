@@ -10,5 +10,6 @@ import java.util.List;
 public interface ActiveRoomsRepository extends JpaRepository<ActiveRooms, Integer> {
     List<ActiveRooms> findAll();
     ActiveRooms findByRoomName(String roomName);
+    ActiveRooms findByID(Integer id);
 
 }

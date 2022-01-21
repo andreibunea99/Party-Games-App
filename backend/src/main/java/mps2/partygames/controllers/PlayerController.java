@@ -63,10 +63,10 @@ public class PlayerController {
     @RequestMapping(value = "/addPlayer", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> addPlayer(@RequestBody String body){
-        //TODO aici trebuie sa primesc si numele camerei
+        //TODO aici trebuie sa primesc si id-ul camerei
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String username = jsonObject.get("username").getAsString();
-        String name = jsonObject.get("name").getAsString();
+        String idCamera = jsonObject.get("idCamera").getAsString();
         // trebuie ca playerul sa existe!!!!!!
         Player player = playerService.findByIdPlayer(username);
         JSONObject jsonObject1 = new JSONObject();
@@ -76,8 +76,8 @@ public class PlayerController {
             return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
         }
         // camera trebuie sa existe!!!!!!
-        playerService.update(player.getPlayerId(), name);
-        activeRoomsService.update(name);
+        playerService.update(player.getPlayerId(), Integer.parseInt(idCamera));
+        activeRoomsService.update(Integer.parseInt(idCamera));
 
         jsonObject1.put("ok", "true");
 
@@ -87,15 +87,14 @@ public class PlayerController {
     @RequestMapping(value = "/addGuest", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> addGuest(@RequestBody String body){
-        //TODO aici trebuie sa primesc si numele camerei
+        //TODO aici trebuie sa primesc si id-ul camerei
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
-        String name = jsonObject.get("name").getAsString();
-        activeRoomsService.updateGuests(name);
+        String idCamera = jsonObject.get("idRoom").getAsString();
+        activeRoomsService.updateGuests(Integer.parseInt(idCamera));
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("ok", "true");
 
         return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
-
 
     }
 
