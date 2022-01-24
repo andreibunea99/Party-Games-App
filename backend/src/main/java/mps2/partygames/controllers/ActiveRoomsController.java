@@ -50,6 +50,7 @@ public class ActiveRoomsController {
     @RequestMapping(value = "/addRoom", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> addRoom(@RequestBody String body){
+        System.out.println(body);
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String name = jsonObject.get("name").getAsString();
         String type = jsonObject.get("type").getAsString();

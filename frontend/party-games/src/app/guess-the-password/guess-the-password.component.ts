@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginQuery } from '../classes/loginQuery';
 import { roomsQuery } from '../classes/roomsQuery';
 import { DataService } from '../data.service';
@@ -25,14 +27,28 @@ export class GuessThePasswordComponent implements OnInit {
 
   chestie!: string;
 
+  username!: string;
+
+  r!: boolean;
+
+  codeForm!: FormGroup;
+
   totalSize!: 0;
 
   selectedRoom = 0;
   selected = false;
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, public router: Router, private formBuilder: FormBuilder) { 
+    this.codeForm = this.formBuilder.group({
+      inputUsername: formBuilder.control(''),
+    })
+  }
 
-  ngOnInit(): void {
+  ngOnInit(){
+
+    this.data.currentUsername2.subscribe(username => this.username = username);
+    console.log("USERNAME: " + this.username);
+    console.log(this.data.getUsername());
 
     this.data.getRooms().subscribe(data => {
       this.recv = data['rooms'];
@@ -49,17 +65,22 @@ export class GuessThePasswordComponent implements OnInit {
   }
 
   ocClickRoom(id: number) {
-    console.log(id);
     this.selectedRoom = id;
-    this.getList()
     this.selected = true;
     this.data.getRoomDetails(id).subscribe(data => {
       this.recv = data['players'];
-      console.log(data);
+      // console.log(data);
+      this.playersList[id] = [];
+      this.playersScores[id] = [];
+      for (let i = 0; i < this.recv.length; i++) {
+        this.playersList[id][i] = this.recv[i][0];
+        this.playersScores[id][i] = Number(this.recv[i][1]);
+      }
       // this.playersList[id] = data['players'];
       // this.guestScore[id] = data['guestScore'];
       // this.guestNumber[id] = data['guestsNr'];
     })
+    this.getList();
   }
 
   getList() {
@@ -69,6 +90,20 @@ export class GuessThePasswordComponent implements OnInit {
     }
     this.displayList[this.playersList[this.selectedRoom].length] = "Guests .................................... " + this.guestScore[this.selectedRoom].toString();
     return this.displayList;
+  }
+
+  joinButton(id: number) {
+      this.r = this.data.postAddPlayer(this.username, id);
+      console.log(this.r);
+  }
+
+  guestButton(id: number) {
+    this.r = this.data.postAddGuest(id);
+    console.log(this.r);
+}
+
+  addRoom() {
+    this.router.navigate(['create-room']);
   }
 
 }

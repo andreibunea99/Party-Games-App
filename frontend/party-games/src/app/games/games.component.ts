@@ -22,6 +22,8 @@ export class GamesComponent implements OnInit {
       this.recv = data;
     })
     this.data.currentUsername.subscribe(username => this.username = username);
+    this.data.changeMessage2(this.username);
+    console.log(this.username);
   }
 
 

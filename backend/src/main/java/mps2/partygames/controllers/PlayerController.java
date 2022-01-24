@@ -62,6 +62,7 @@ public class PlayerController {
     @ResponseBody
     public ResponseEntity<String> addPlayer(@RequestBody String body){
         //TODO aici trebuie sa primesc si id-ul camerei
+        System.out.println(body);
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String username = jsonObject.get("username").getAsString();
         String idCamera = jsonObject.get("idCamera").getAsString();

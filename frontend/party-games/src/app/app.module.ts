@@ -10,6 +10,7 @@ import { GamesComponent } from './games/games.component';
 import { GuessThePasswordComponent } from './guess-the-password/guess-the-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateRoomComponent } from './create-room/create-room.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     routingComponents,
     RegisterComponent,
     GamesComponent,
-    GuessThePasswordComponent
+    GuessThePasswordComponent,
+    CreateRoomComponent
   ],
   imports: [
     BrowserModule,

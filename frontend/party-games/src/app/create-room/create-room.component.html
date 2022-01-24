@@ -1,0 +1,20 @@
+<img src="../../assets/images/homepage.jpg" class="img-fluid image-full">
+
+<div class="container-fluid center-card">
+    <h1 style="font-size: 420%; color: gold; text-align: center;">Create Room</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Room Name</label>
+          <input type="text" class="form-control" formControlName="inputName">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Room Type</label>
+          <input type="text" class="form-control" formControlName="inputType">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Max. Players number</label>
+            <input type="text" class="form-control" formControlName="inputMaxnr">
+          </div>
+        <button type="submit" class="btn btn-warning" style="color: white;">Continue</button>
+      </form>
+</div>
