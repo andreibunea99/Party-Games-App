@@ -1,9 +1,6 @@
 package mps2.partygames.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import mps2.partygames.dao.ActiveRooms;
 import mps2.partygames.dao.Player;
 import mps2.partygames.dao.PlayerDetails;
@@ -16,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -67,29 +65,31 @@ public class ActiveRoomsController {
     @RequestMapping(value = "/roomDetails/{idCamera}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getRoomDetails(@PathVariable String idCamera) {
-        JsonObject jsonObject = new JsonObject(); // = JsonParser.parseString(body).getAsJsonObject();
-//        String idCamera = jsonObject.get("idRoom").getAsString();
 
         List<Player> players = playerService.findAll();
         JsonArray array = new JsonArray();
         for(Player player : players) {
             if (player.getRoomId() != null && player.getRoomId() == Integer.parseInt(idCamera)) {
                 Gson gson = new Gson();
-                String json = gson.toJson(new PlayerDetails(player.getPlayerId(), player.getScore()));
+                String json = gson.toJson(Arrays.asList(new PlayerDetails(player.getPlayerId(), player.getScore())));
                 array.add(json);
             }
         }
         Gson gson = new Gson();
-        String json = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsNumber());
-        array.add(json);
+        String numberOfGuests = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsNumber());
 
-        String json1 = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsScore());
-        array.add(json1);
+        String guestsScore = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsScore());
 
-
+        JsonElement guestsNr = new JsonParser().parse(numberOfGuests);
+        JsonElement guestScore = new JsonParser().parse(guestsScore);
+        JsonObject jsonObject = new JsonObject();
         jsonObject.add("players", array);
+        jsonObject.add("guestsNr", guestsNr);
+        jsonObject.add("guestScore", guestScore);
+
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
 
-
     }
+
+
 }

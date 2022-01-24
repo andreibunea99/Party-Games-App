@@ -23,6 +23,10 @@ public class PlayerService {
     public void update(String username, Integer id) {
         Player player = playerRepository.findPlayerByPlayerId(username);
         player.setRoomId(activeRoomsService.findById(id).getID());
+        player.setScore(0);
         playerRepository.save(player);
+    }
+    public void deletePlayer(String id){
+        playerRepository.deletePlayerByPlayerId(id);
     }
 }

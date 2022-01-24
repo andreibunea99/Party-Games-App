@@ -33,4 +33,9 @@ public class ActiveRoomsService {
         activeRooms.setGuestsNumber(activeRooms.getGuestsNumber() + 1);
         activeRoomsRepository.save(activeRooms);
     }
+    public void deletePlayer(String idPlayer, Integer idRoom) {
+        ActiveRooms activeRooms = activeRoomsRepository.findByID(idRoom);
+        activeRooms.setNumberOfPlayers(activeRooms.getNumberOfPlayers() - 1);
+        activeRoomsRepository.save(activeRooms);
+    }
 }
