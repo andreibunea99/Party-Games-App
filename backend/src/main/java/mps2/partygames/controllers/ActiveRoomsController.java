@@ -14,15 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@CrossOrigin(origins = "*")
 @Controller
-@RequestMapping("/PartyGames")
+//@RequestMapping("/PartyGames")
 public class ActiveRoomsController {
 
     @Autowired
@@ -64,11 +63,11 @@ public class ActiveRoomsController {
     }
 
     // get roomDetails/id - response {players: [(name, score)], guestsNr, guestScore}
-    @RequestMapping(value = "/roomDetails", method = RequestMethod.GET)
+    @RequestMapping(value = "/roomDetails/{idCamera}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> getRoomDetails(@RequestBody String body) {
-        JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
-        String idCamera = jsonObject.get("idRoom").getAsString();
+    public ResponseEntity<String> getRoomDetails(@PathVariable String idCamera) {
+        JsonObject jsonObject = new JsonObject(); // = JsonParser.parseString(body).getAsJsonObject();
+//        String idCamera = jsonObject.get("idRoom").getAsString();
 
         List<Player> players = playerService.findAll();
         JsonArray array = new JsonArray();

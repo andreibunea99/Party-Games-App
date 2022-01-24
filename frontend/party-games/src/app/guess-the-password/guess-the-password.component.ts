@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginQuery } from '../classes/loginQuery';
+import { roomsQuery } from '../classes/roomsQuery';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-guess-the-password',
@@ -8,19 +11,36 @@ import { Component, OnInit } from '@angular/core';
 
 export class GuessThePasswordComponent implements OnInit {
 
-  roomsList:Array<[string, number]> = [];
+  roomsList:Array<[number, string, string, string, number, number, number]> = [];
+  // roomsList:Array<roomsQuery> = [];
   playersList:Array<Array<string>> = [];
   playersScores:Array<Array<number>> = [];
   guestScore:Array<number> = [];
+  guestNumber:Array<number> = [];
   displayList:Array<string> = [];
+
+  recv!: Array<string>;
+
+  item!: roomsQuery;
+
+  chestie!: string;
+
+  totalSize!: 0;
 
   selectedRoom = 0;
   selected = false;
 
-  constructor() { }
+  constructor(private data: DataService) { }
 
   ngOnInit(): void {
-    this.roomsList = [['Camera 1', 0], ['Camera 2', 1], ['Camera 3', 2], ['Camera 4', 3], ['Camera 5', 4], ['Camera 6', 5], ['Camera 7', 6], ['Camera 8', 7], ['Camera 9', 8]];
+
+    this.data.getRooms().subscribe(data => {
+      this.recv = data['rooms'];
+      for (let i = 0; i < this.recv.length; i++) {
+        this.roomsList[i] = [(JSON.parse(this.recv[i]).ID).toString(), (JSON.parse(this.recv[i]).roomName).toString(), (JSON.parse(this.recv[i]).adminId).toString(), (JSON.parse(this.recv[i]).roomType).toString(), (JSON.parse(this.recv[i]).numberOfPlayers).toString(), (JSON.parse(this.recv[i]).maximumNumberOfPlayers).toString(), (JSON.parse(this.recv[i]).guestsNumber).toString()];
+      }
+    })
+
     for (let i = 0; i < 9; i++) {
       this.playersList[i] = ["Ana", "Rares", "Bogdan"];
       this.playersScores[i] = [100, 20, 5];
@@ -33,6 +53,13 @@ export class GuessThePasswordComponent implements OnInit {
     this.selectedRoom = id;
     this.getList()
     this.selected = true;
+    this.data.getRoomDetails(id).subscribe(data => {
+      this.recv = data['players'];
+      console.log(data);
+      // this.playersList[id] = data['players'];
+      // this.guestScore[id] = data['guestScore'];
+      // this.guestNumber[id] = data['guestsNr'];
+    })
   }
 
   getList() {

@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
+  r!: boolean;
+
   constructor(public router: Router, private data: DataService, private formBuilder: FormBuilder) { 
     this.loginForm = this.formBuilder.group({
       inputUsername: formBuilder.control(''),
@@ -26,8 +28,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.data.changeMessage(this.loginForm.value.inputUsername);
-    this.router.navigate(['games']);
+    this.r = this.data.postLogin(this.loginForm.value.inputUsername, this.loginForm.value.inputPassword);
+    if (this.r) {
+      this.data.changeMessage(this.loginForm.value.inputUsername);
+      this.router.navigate(['games']);
+    }
   }
 
 }

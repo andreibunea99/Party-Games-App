@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LoginQuery } from '../classes/loginQuery';
 import { DataService } from '../data.service';
 
 @Component({
@@ -10,10 +11,16 @@ import { DataService } from '../data.service';
 export class GamesComponent implements OnInit {
 
   username!: string;
+  title!: string;
+
+  recv!: LoginQuery;
 
   constructor(private data: DataService) {}
 
   ngOnInit() {
+    this.data.getData().subscribe(data => {
+      this.recv = data;
+    })
     this.data.currentUsername.subscribe(username => this.username = username);
   }
 
