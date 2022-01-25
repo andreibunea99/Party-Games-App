@@ -83,12 +83,16 @@ public class ActiveRoomsController {
 
         String guestsScore = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsScore());
 
+        String adminString = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getAdminId());
+
         JsonElement guestsNr = new JsonParser().parse(numberOfGuests);
         JsonElement guestScore = new JsonParser().parse(guestsScore);
+        JsonElement admin = new JsonParser().parse(adminString);
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("players", array);
         jsonObject.add("guestsNr", guestsNr);
         jsonObject.add("guestScore", guestScore);
+        jsonObject.add("admin", admin);
 
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
 
