@@ -29,6 +29,8 @@ public class PlayerController {
 
     List<String> solutions = new ArrayList<>(100);
 
+    List<String> tasks = new ArrayList<>(100);
+
     @Autowired
     PlayerService playerService;
     @Autowired
@@ -98,12 +100,33 @@ public class PlayerController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/addTask/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> addTask(@PathVariable String id, @RequestBody String body) {
+        JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
+        String task = jsonObject.get("task").getAsString();
+        int room = Integer.parseInt(id);
+        tasks.set(room, task);
+        System.out.println("POSTED ROOM: " + room + " " + tasks.get(room));
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/getSol/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getSol(@PathVariable String id) {
         JSONObject json = new JSONObject();
         json.put("sol", solutions.get(Integer.parseInt(id)));
         System.out.println("GETTING SOLUTION: " + solutions.get(Integer.parseInt(id)));
+        return new ResponseEntity<>(json.toString(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getTask/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getTask(@PathVariable String id) {
+        JSONObject json = new JSONObject();
+        json.put("task", tasks.get(Integer.parseInt(id)));
+        System.out.println("GETTING TASK: " + tasks.get(Integer.parseInt(id)));
         return new ResponseEntity<>(json.toString(), HttpStatus.OK);
     }
 
