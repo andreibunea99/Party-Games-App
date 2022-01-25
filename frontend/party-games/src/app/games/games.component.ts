@@ -18,10 +18,11 @@ export class GamesComponent implements OnInit {
   constructor(private data: DataService) {}
 
   ngOnInit() {
-    this.data.getData().subscribe(data => {
-      this.recv = data;
-    })
+    // this.data.getData().subscribe(data => {
+    //   this.recv = data;
+    // })
     this.data.currentUsername.subscribe(username => this.username = username);
+    this.data.changeMessage(this.username);
     this.data.changeMessage2(this.username);
     console.log(this.username);
   }

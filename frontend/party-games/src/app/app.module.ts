@@ -11,6 +11,7 @@ import { GuessThePasswordComponent } from './guess-the-password/guess-the-passwo
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateRoomComponent } from './create-room/create-room.component';
+import { GameRoomComponent } from './game-room/game-room.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CreateRoomComponent } from './create-room/create-room.component';
     RegisterComponent,
     GamesComponent,
     GuessThePasswordComponent,
-    CreateRoomComponent
+    CreateRoomComponent,
+    GameRoomComponent
   ],
   imports: [
     BrowserModule,

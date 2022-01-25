@@ -25,16 +25,15 @@ export class CreateRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data.currentUsername.subscribe(username => this.username = username);
+    this.data.getLogged().subscribe(data => {
+      this.username = data['user'];
+      console.log("USERNAME: " + this.username);
+    })
   }
 
   onSubmit() {
     this.r = this.data.postAddRoom(this.loginForm.value.inputName, this.loginForm.value.inputType, this.username, this.loginForm.value.inputMaxnr);
-    if (this.r) {
-      this.data.changeMessage(this.loginForm.value.inputUsername);
-      // this.router.navigate(['game-screen']);
-      console.log("ok");
-    }
+    this.router.navigate(['guess-the-password']);
   }
 
 }

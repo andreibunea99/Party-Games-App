@@ -49,6 +49,16 @@ export class DataService {
     return this.http.get(url);
   }
 
+  getLogged(): Observable<any> {
+    let url = 'http://localhost:8080/getLogged';
+    return this.http.get(url);
+  }
+
+  getRoomed(): Observable<any> {
+    let url = 'http://localhost:8080/getRoomed';
+    return this.http.get(url);
+  }
+
   getRoomDetails(id:number): Observable<any> {
     let url = 'http://localhost:8080/roomDetails/' + id.toString();
     return this.http.get(url);

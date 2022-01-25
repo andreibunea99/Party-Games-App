@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateRoomComponent } from './create-room/create-room.component';
+import { GameRoomComponent } from './game-room/game-room.component';
 import { GamesComponent } from './games/games.component';
 import { GuessThePasswordComponent } from './guess-the-password/guess-the-password.component';
 import { HomeComponent } from './home/home.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'games', component: GamesComponent},
   {path: 'guess-the-password', component: GuessThePasswordComponent},
-  {path: 'create-room', component: CreateRoomComponent}
+  {path: 'create-room', component: CreateRoomComponent},
+  {path: 'game-room', component: GameRoomComponent}
 ];
 
 @NgModule({
@@ -22,4 +24,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LoginComponent, HomeComponent, RegisterComponent, GamesComponent, GuessThePasswordComponent, CreateRoomComponent]
+export const routingComponents = [LoginComponent, HomeComponent, RegisterComponent, GamesComponent, GuessThePasswordComponent, CreateRoomComponent, GameRoomComponent]

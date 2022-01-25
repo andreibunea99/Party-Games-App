@@ -1,0 +1,48 @@
+.image-full {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: absolute;
+}
+
+.rooms {
+    position: absolute;
+    background-color: rgb(241, 150, 241);
+    opacity: 0.9;
+    margin-top: 4%;
+    margin-left: 10%;
+    width: 60%;
+    color: black;
+    font-size: 150%;
+}
+
+.list-item {
+    background-color: rgb(241, 150, 241);
+    font-family: 'Mochiy Pop P One', sans-serif;
+    padding-top: 15px;
+    font-size: 80%;
+}
+
+.details {
+    position: absolute;
+    margin-top: 4%;
+    margin-left: 75%;
+    width: 20%;
+    height: 50%;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    background-color: rgb(29, 161, 242);
+    color: white;
+}
+
+.prompt {
+    position: absolute;
+    background-color: white;
+    color: black;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 60%;
+    height: 60%;
+    border-radius: 10px;
+    padding: 2% 2% 2% 2%;
+}

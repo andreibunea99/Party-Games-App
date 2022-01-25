@@ -1,0 +1,23 @@
+<img src="../../assets/images/homepage.jpg" class="img-fluid image-full">
+
+<div class="prompt">
+    {{prompt}}
+</div>
+
+<div class="details">
+    <h1 style="margin-left: 5%">Players</h1>
+    <ul class="list-group">
+        <li *ngFor="let player of getList()" class="list-group-item" style="background-color: rgb(29, 161, 242);">
+            {{player}}
+        </li>
+    </ul>
+</div>
+
+<form [formGroup]="codeForm" style="position: absolute; margin-top: 20%; color: blanchedalmond; margin-left: 10%;" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Type your answer</label>
+      <input type="text" class="form-control" formControlName="inputUsername">
+      <button type="submit" class="btn btn-warning" style="color: white; margin-top: 2%;">Submit</button>
+    </div>
+  </form>
+

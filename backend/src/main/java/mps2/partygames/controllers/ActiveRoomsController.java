@@ -66,8 +66,10 @@ public class ActiveRoomsController {
     @ResponseBody
     public ResponseEntity<String> getRoomDetails(@PathVariable String idCamera) {
 
+        System.out.println("INTRU IN CAMERA: " + idCamera);
         List<Player> players = playerService.findAll();
         JsonArray array = new JsonArray();
+        System.out.println(idCamera);
         for(Player player : players) {
             if (player.getRoomId() != null && player.getRoomId() == Integer.parseInt(idCamera)) {
                 Gson gson = new Gson();
@@ -75,6 +77,7 @@ public class ActiveRoomsController {
                 array.add(json);
             }
         }
+        System.out.println(array.size());
         Gson gson = new Gson();
         String numberOfGuests = gson.toJson(activeRoomsService.findById(Integer.parseInt(idCamera)).getGuestsNumber());
 

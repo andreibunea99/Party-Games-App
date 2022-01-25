@@ -46,9 +46,14 @@ export class GuessThePasswordComponent implements OnInit {
 
   ngOnInit(){
 
-    this.data.currentUsername2.subscribe(username => this.username = username);
-    console.log("USERNAME: " + this.username);
-    console.log(this.data.getUsername());
+    // this.data.currentUsername2.subscribe(username => this.username = username);
+    // this.data.currentUsername.subscribe(username => this.username = username);
+    this.data.getLogged().subscribe(data => {
+      this.username = data['user'];
+      console.log("USERNAME: " + this.username);
+    })
+    // console.log(this.data.getUsername());
+
 
     this.data.getRooms().subscribe(data => {
       this.recv = data['rooms'];
@@ -57,11 +62,6 @@ export class GuessThePasswordComponent implements OnInit {
       }
     })
 
-    for (let i = 0; i < 9; i++) {
-      this.playersList[i] = ["Ana", "Rares", "Bogdan"];
-      this.playersScores[i] = [100, 20, 5];
-      this.guestScore[i] = 10;
-    }
   }
 
   ocClickRoom(id: number) {
@@ -69,16 +69,16 @@ export class GuessThePasswordComponent implements OnInit {
     this.selected = true;
     this.data.getRoomDetails(id).subscribe(data => {
       this.recv = data['players'];
-      // console.log(data);
+      console.log("Players:");
+      console.log(data['players']);
       this.playersList[id] = [];
       this.playersScores[id] = [];
       for (let i = 0; i < this.recv.length; i++) {
-        this.playersList[id][i] = this.recv[i][0];
-        this.playersScores[id][i] = Number(this.recv[i][1]);
+        this.playersList[id][i] = JSON.parse(this.recv[i])[0]['name'];
+        this.playersScores[id][i] = Number(JSON.parse(this.recv[i])[0]['score']);
       }
-      // this.playersList[id] = data['players'];
-      // this.guestScore[id] = data['guestScore'];
-      // this.guestNumber[id] = data['guestsNr'];
+      this.guestScore[id] = data['guestScore'];
+      this.guestNumber[id] = data['guestsNr'];
     })
     this.getList();
   }
@@ -88,13 +88,37 @@ export class GuessThePasswordComponent implements OnInit {
     for (let i = 0; i < this.playersList[this.selectedRoom].length; i++) {
       this.displayList[i] = this.playersList[this.selectedRoom][i].concat(" .................................... ").concat(this.playersScores[this.selectedRoom][i].toString());
     }
-    this.displayList[this.playersList[this.selectedRoom].length] = "Guests .................................... " + this.guestScore[this.selectedRoom].toString();
+    this.displayList[this.playersList[this.selectedRoom].length] = "Guests" + "[" + this.guestNumber[this.selectedRoom] + "]" + "................................. " + this.guestScore[this.selectedRoom].toString();
     return this.displayList;
   }
 
   joinButton(id: number) {
+    // console.log("ENTERING JOIN " + id.toString());
+    // this.selectedRoom = id;
+    // this.data.getRoomDetails(id).subscribe(data => {
+    //   console.log(".............");
+    //   this.recv = data['players'];
+    //   console.log("Players:");
+    //   console.log(data['players']);
+    //   this.playersList[id] = [];
+    //   this.playersScores[id] = [];
+    //   for (let i = 0; i < this.recv.length; i++) {
+    //     this.playersList[id][i] = JSON.parse(this.recv[i])[0]['name'];
+    //     this.playersScores[id][i] = Number(JSON.parse(this.recv[i])[0]['score']);
+    //   }
+    //   this.guestScore[id] = data['guestScore'];
+    //   this.guestNumber[id] = data['guestsNr'];
+    // })
+    console.log("ID ACC: " + id.toString());
+    console.log(this.playersList[id]);
+    console.log(this.playersList);
+    if (!this.playersList[id] || this.playersList[id].indexOf(this.username) == -1) {
       this.r = this.data.postAddPlayer(this.username, id);
-      console.log(this.r);
+      console.log("nu exista");
+      this.router.navigate(['game-room']);
+    } else {
+      this.router.navigate(['game-room']);
+    }
   }
 
   guestButton(id: number) {
