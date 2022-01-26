@@ -97,13 +97,19 @@ export class GameRoomComponent implements OnInit {
   onSubmit() {
     if (this.roomAdmin == this.username) {
       console.log("E ADMIN");
-      this.data.postAddTask(this.codeFormAdmin.value.inputUsername, this.room);
+      if (this.codeFormAdmin.value.inputUsername.includes(this.subject)) {
+        console.log("Prompt contains the subject.");
+      } else {
+        this.data.postAddTask(this.codeFormAdmin.value.inputUsername, this.room);
+        console.log("Added subject");
+      }
     } else {
       console.log("NU E ADMIN");
       this.data.getSol(this.room).subscribe(data => {
         this.waitedSol = data['sol'];
         console.log(this.waitedSol);
         if (this.waitedSol == this.codeForm.value.inputUsername) {
+          this.data.guessed(this.username, this.room);
           console.log("GHICI");
         }
       })

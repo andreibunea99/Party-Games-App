@@ -231,6 +231,7 @@ public class PlayerController {
     @RequestMapping(value = {"/guessed/{username}", "/guessed/{username}/{idCamera}"}, method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<String> guessedPlayer(@PathVariable String username, @PathVariable(required = false) Integer idCamera) {
+        System.out.println("GUESSED: " + username + " " + idCamera.toString());
          if (username.equals("Spectator")) {
            activeRoomsService.updateGuestsScore(idCamera);
          } else {

@@ -152,4 +152,13 @@ export class DataService {
     return this.idr;
   }
 
+  guessed(username:string, roomId:number): boolean {
+    let url = 'http://localhost:8080/guessed/' + username.toString() + "/" + roomId.toString();
+    this.http.put<any>(url, {}).subscribe(data => {
+        // this.respSource.next(data['ok']);
+        // this.r = data['ok'];
+      })
+      return this.r;
+  }
+
 }
