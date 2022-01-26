@@ -1,19 +1,29 @@
 <img src="../../assets/images/homepage.jpg" class="img-fluid image-full">
 
-<div class="prompt">
+<div *ngIf="!isAdmin" class="prompt">
     {{prompt}}
 </div>
 
+<h1 *ngIf="isAdmin" style="position: absolute; margin-top: 1%; color: green; margin-left: 10%;">{{subject}}</h1>
+
 <div class="details">
-    <h1 style="margin-left: 5%">Players</h1>
-    <ul class="list-group">
-        <li *ngFor="let player of getList()" class="list-group-item" style="background-color: rgb(29, 161, 242);">
-            {{player}}
-        </li>
-    </ul>
+  <h1 style="margin-left: 5%">Players</h1>
+  <ul class="list-group">
+      <li *ngFor="let player of getList()" class="list-group-item" style="background-color: rgb(29, 161, 242);">
+          {{player}}
+      </li>
+  </ul>
 </div>
 
-<form [formGroup]="codeForm" style="position: absolute; margin-top: 20%; color: blanchedalmond; margin-left: 10%;" (ngSubmit)="onSubmit()">
+<form *ngIf="!isAdmin" [formGroup]="codeForm" style="position: absolute; margin-top: 20%; color: blanchedalmond; margin-left: 10%;" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Type your answer</label>
+      <input type="text" class="form-control" formControlName="inputUsername">
+      <button type="submit" class="btn btn-warning" style="color: white; margin-top: 2%;">Submit</button>
+    </div>
+  </form>
+
+  <form *ngIf="isAdmin" [formGroup]="codeFormAdmin" style="position: absolute; height: 20%; width: 60%; margin-top: 10%; color: blanchedalmond; margin-left: 10%;" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Type your answer</label>
       <input type="text" class="form-control" formControlName="inputUsername">

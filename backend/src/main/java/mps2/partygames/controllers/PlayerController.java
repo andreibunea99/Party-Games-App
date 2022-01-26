@@ -95,9 +95,26 @@ public class PlayerController {
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String sol = jsonObject.get("sol").getAsString();
         int room = Integer.parseInt(id);
+        if (solutions.size() == 0) {
+            for ( int i = 0; i < 20; i++) {
+                solutions.add("");
+            }
+        }
         solutions.set(room, sol);
         System.out.println("POSTED ROOM: " + room + " " + solutions.get(room));
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/setRoom", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> setRoom(@RequestBody String body) {
+        JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
+        room = jsonObject.get("room").getAsString();
+        System.out.println("SETTING " + room);
+//        room = id;
+        JSONObject json = new JSONObject();
+        json.put("room", room);
+        return new ResponseEntity<>(json.toString(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/addTask/{id}", method = RequestMethod.POST)
@@ -106,6 +123,11 @@ public class PlayerController {
         JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String task = jsonObject.get("task").getAsString();
         int room = Integer.parseInt(id);
+        if (tasks.size() == 0) {
+            for ( int i = 0; i < 20; i++) {
+                tasks.add("");
+            }
+        }
         tasks.set(room, task);
         System.out.println("POSTED ROOM: " + room + " " + tasks.get(room));
         return new ResponseEntity<>("", HttpStatus.OK);
@@ -185,6 +207,7 @@ public class PlayerController {
         activeRoomsService.updateGuests(Integer.parseInt(idCamera));
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("ok", "true");
+        user = "Guest";
 
         return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
 

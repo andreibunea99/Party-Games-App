@@ -82,6 +82,43 @@ export class DataService {
     return this.r;
   }
 
+  postAddTask(task:string, room:number): boolean {
+    let url = 'http://localhost:8080/addTask/' + room.toString();
+    this.http.post<any>(url, { 'task': task }).subscribe(data => {
+        this.respSource.next(data['ok']);
+        this.r = data['ok'];
+      })
+      return this.r;
+  }
+
+  setSol(sol:string, room:number): boolean {
+    let url = 'http://localhost:8080/addSol/' + room.toString();
+    this.http.post<any>(url, { 'sol': sol }).subscribe(data => {
+        this.respSource.next(data['ok']);
+        this.r = data['ok'];
+      })
+      return this.r;
+  }
+
+  getSol(id:number): Observable<any> {
+    let url = 'http://localhost:8080/getSol/' + id.toString();
+    return this.http.get(url);
+  }
+
+  getTask(id:number): Observable<any> {
+    let url = 'http://localhost:8080/getTask/' + id.toString();
+    return this.http.get(url);
+  }
+
+  setRoom(roomId:number): boolean {
+    let url = 'http://localhost:8080/setRoom/';
+    this.http.post<any>(url, {'room': roomId}).subscribe(data => {
+        this.respSource.next(data['ok']);
+        this.r = data['ok'];
+      })
+      return this.r;
+  }
+
   postAddPlayer(username:string, roomId:number): boolean {
     let url = 'http://localhost:8080/addPlayer';
     this.http.post<any>(url, { 'username': username, 'idCamera': roomId }).subscribe(data => {

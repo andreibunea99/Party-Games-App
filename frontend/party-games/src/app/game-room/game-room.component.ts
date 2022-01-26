@@ -21,9 +21,16 @@ export class GameRoomComponent implements OnInit {
   room!: number;
   isAdmin!: boolean;
 
+  roomAdmin!: string;
+
+  waitedSol!: string;
+
   prompt!: string;
 
   codeForm!: FormGroup;
+  codeFormAdmin!: FormGroup;
+
+  subject!: string;
 
   subjects: Array<string> = ['mar', 'masina', 'fotbal', 'management', 'tenis', 'copac'];
 
@@ -31,36 +38,48 @@ export class GameRoomComponent implements OnInit {
     this.codeForm = this.formBuilder.group({
       inputUsername: formBuilder.control(''),
     })
+    this.codeFormAdmin = this.formBuilder.group({
+      inputUsername: formBuilder.control(''),
+    })
    }
 
   ngOnInit(): void {
+    this.isAdmin = false;
     this.prompt = "Nothing so far.";
     this.data.getLogged().subscribe(data => {
       this.username = data['user'];
-      // if (data['admin'] == 'yes') {
-      //   this.isAdmin = true;
-      //   console.log("E ADMIN");
-      // }
       console.log("USERNAME: " + this.username);
-    })
-    this.data.getRoomed().subscribe(data => {
-      this.room = data['room'];
-      console.log("ROOM: " + this.room);
-      this.data.getRoomDetails(this.room).subscribe(data => {
-        console.log("HEEEEEEE");
-        this.recv = data['players'];
-        console.log("Players:");
-        console.log(data['players']);
-        this.playersList[this.room] = [];
-        this.playersScores[this.room] = [];
-        for (let i = 0; i < this.recv.length; i++) {
-          this.playersList[this.room][i] = JSON.parse(this.recv[i])[0]['name'];
-          this.playersScores[this.room][i] = Number(JSON.parse(this.recv[i])[0]['score']);
-        }
-        this.guestScore[this.room] = data['guestScore'];
-        this.guestNumber[this.room] = data['guestsNr'];
+    
+      this.data.getRoomed().subscribe(data => {
+        this.room = data['room'];
+        console.log("ROOM: " + this.room);
+        this.data.getRoomDetails(this.room).subscribe(data => {
+          console.log("HEEEEEEE");
+          this.recv = data['players'];
+          this.roomAdmin = data['admin'];
+          if (this.roomAdmin == this.username) {
+            this.isAdmin = true;
+            this.subject = this.subjects[Math.floor(Math.random() * this.subjects.length)];
+            this.data.setSol(this.subject, this.room);
+            console.log(this.subject);
+          } else {
+            this.data.getTask(this.room).subscribe(data => {
+              this.prompt = data['task'];
+            })
+          }
+          console.log("Players:");
+          console.log(data['players']);
+          this.playersList[this.room] = [];
+          this.playersScores[this.room] = [];
+          for (let i = 0; i < this.recv.length; i++) {
+            this.playersList[this.room][i] = JSON.parse(this.recv[i])[0]['name'];
+            this.playersScores[this.room][i] = Number(JSON.parse(this.recv[i])[0]['score']);
+          }
+          this.guestScore[this.room] = data['guestScore'];
+          this.guestNumber[this.room] = data['guestsNr'];
+        })
+        this.getList();
       })
-      this.getList();
     })
     
   }
@@ -76,6 +95,19 @@ export class GameRoomComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.roomAdmin == this.username) {
+      console.log("E ADMIN");
+      this.data.postAddTask(this.codeFormAdmin.value.inputUsername, this.room);
+    } else {
+      console.log("NU E ADMIN");
+      this.data.getSol(this.room).subscribe(data => {
+        this.waitedSol = data['sol'];
+        console.log(this.waitedSol);
+        if (this.waitedSol == this.codeForm.value.inputUsername) {
+          console.log("GHICI");
+        }
+      })
+    }
     console.log(this.codeForm.value.inputUsername);
   }
 

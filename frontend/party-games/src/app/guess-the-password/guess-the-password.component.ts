@@ -79,8 +79,8 @@ export class GuessThePasswordComponent implements OnInit {
       }
       this.guestScore[id] = data['guestScore'];
       this.guestNumber[id] = data['guestsNr'];
+      this.getList();
     })
-    this.getList();
   }
 
   getList() {
@@ -114,16 +114,18 @@ export class GuessThePasswordComponent implements OnInit {
     console.log(this.playersList);
     if (!this.playersList[id] || this.playersList[id].indexOf(this.username) == -1) {
       this.r = this.data.postAddPlayer(this.username, id);
-      console.log("nu exista");
+      // console.log("nu exista");
       this.router.navigate(['game-room']);
     } else {
+      // console.log("exista");
+      this.data.setRoom(id);
       this.router.navigate(['game-room']);
     }
   }
 
   guestButton(id: number) {
     this.r = this.data.postAddGuest(id);
-    console.log(this.r);
+    this.router.navigate(['game-room']);
 }
 
   addRoom() {
