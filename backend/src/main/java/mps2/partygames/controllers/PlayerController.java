@@ -207,7 +207,7 @@ public class PlayerController {
         activeRoomsService.updateGuests(Integer.parseInt(idCamera));
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("ok", "true");
-        user = "Guest";
+        user = "Spectator";
 
         return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
 
