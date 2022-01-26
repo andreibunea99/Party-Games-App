@@ -177,7 +177,6 @@ public class PlayerController {
             JSONObject jsonObject1 = new JSONObject();
             if (player == null) {
                 jsonObject1.put("ok", "false");
-
                 return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
             }
             // camera trebuie sa existe!!!!!!
@@ -227,6 +226,20 @@ public class PlayerController {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("ok", "true");
         return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = {"/guessed/{username}", "/guessed/{username}/{idCamera}"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<String> guessedPlayer(@PathVariable String username, @PathVariable(required = false) Integer idCamera) {
+         if (username.equals("Spectator")) {
+           activeRoomsService.updateGuestsScore(idCamera);
+         } else {
+             playerService.updateScore(username);
+         }
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("ok", "true");
+        return new ResponseEntity<>(jsonObject1.toString(), HttpStatus.OK);
+
     }
 
 

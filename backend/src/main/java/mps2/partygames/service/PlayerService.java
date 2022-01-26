@@ -29,4 +29,10 @@ public class PlayerService {
     public void deletePlayer(String id){
         playerRepository.deletePlayerByPlayerId(id);
     }
+
+    public void updateScore(String username) {
+        Player player = playerRepository.findPlayerByPlayerId(username);
+        player.setScore(player.getScore() + 10);
+        playerRepository.save(player);
+    }
 }

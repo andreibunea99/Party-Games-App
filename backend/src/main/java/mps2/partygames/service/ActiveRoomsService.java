@@ -38,4 +38,10 @@ public class ActiveRoomsService {
         activeRooms.setNumberOfPlayers(activeRooms.getNumberOfPlayers() - 1);
         activeRoomsRepository.save(activeRooms);
     }
+
+    public void updateGuestsScore(Integer id) {
+        ActiveRooms activeRooms = activeRoomsRepository.findByID(id);
+        activeRooms.setGuestsScore(activeRooms.getGuestsScore() + 10);
+        activeRoomsRepository.save(activeRooms);
+    }
 }
